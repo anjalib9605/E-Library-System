@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrow a Book</title>
+    <style>
+        body {
+            background-color: #367588;
+            text-align: center;
+            padding: 20px;
+        }
+	h2{
+	  color: #800000;
+	  font-size: 35px;
+	}
+        .container {
+            background: #F4E1C1;
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            margin: auto;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #800000;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #600000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2><u>Borrow a Book</u></h2>
+        <form id="borrowForm">
+            <label for="bookTitle">Book Title:</label>
+            <input type="text" id="bookTitle" name="bookTitle" readonly>
+
+            <label for="author">Author:</label>
+            <input type="text" id="author" name="author" readonly>
+
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="duration">Borrow Duration:</label>
+            <select id="duration" name="duration" required>
+                <option value="1 Week">1 Week</option>
+                <option value="2 Weeks">2 Weeks</option>
+                <option value="1 Month">1 Month</option>
+            </select>
+
+            <button type="submit">Submit Request</button>
+        </form>
+
+        <p id="confirmationMessage" style="display:none; color: green;">Request Submitted Successfully!</p>
+    </div>
+
+    <script>
+        
+        function getBookDetails() {
+            const params = new URLSearchParams(window.location.search);
+            document.getElementById("bookTitle").value = params.get("title") || "Unknown Title";
+            document.getElementById("author").value = params.get("author") || "Unknown Author";
+        }
+
+        document.getElementById("borrowForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent actual form submission
+            
+            // Show confirmation message
+            document.getElementById("confirmationMessage").style.display = "block";
+            
+            // Optionally, send data to a backend server (not implemented here)
+        });
+
+        window.onload = getBookDetails;
+    </script>
+
+</body>
+</html>

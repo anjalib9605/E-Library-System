@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-Library</title>
+    <style>
+        body {
+            background-color: #367588;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center; /* Center-aligns text */
+        }
+
+        #heading {
+            color: #800000;
+            font-size: 110px;
+            margin: 0; /* Removes default margin */
+        }
+
+        #tagline {
+            font-size: 20px;
+            max-width: 800px; /* Limits width for better readability */
+            margin: 20px auto; /* Centers it */
+        }
+
+        #start {
+            background-color: #800000;
+            color: white;
+            box-shadow: 0 5px black;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        #start:hover {
+            background-color: #600000;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="heading">Welcome to E-Library</h1>
+        <h3 id="tagline"><i>"A world of knowledge at your fingertips </i>📜🔮"<br><br>
+        Explore a vast collection of digital books, anytime, anywhere. Whether you're here to learn, discover, or escape into a great story, our library is open 24/7 for your reading pleasure. 📖🌟</h3>
+        <button id="start" onclick="window.location.href='file:///C:/Users/anjuc/OneDrive/Documents/Web Technology/CIA 3/homepage.html'">Browse Books →</button>
+
+    </div>
+</body>
+</html>
