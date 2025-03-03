@@ -4,15 +4,15 @@
 
 ## Features  
 
-- Fetches books based on genre using **Google Books API**  
-- Displays book details including title, author, and description  
-- Users can click *"Want to Borrow"* to simulate a borrowing request  
-- Responsive design with a clean UI  
+- Fetches books based on genre using **Google Books API**.
+- Displays book details including title, author, and description. 
+- Users can click *"Want to Borrow"* to simulate a borrowing request. 
+- Responsive design with a clean UI. 
 
 ## Technologies Used  
 
 - **HTML, CSS, JavaScript**  
-- **Google Books API** for fetching book data  
+- **Google Books API** for fetching book data. 
 
 ## How to Use  
 
@@ -26,16 +26,16 @@
 
 # Limitations
 
-Uses Google Books API, so book availability is limited. Lacks complete details (some books have missing images, descriptions, or authors)
+Uses Google Books API, so book availability is limited. Lacks complete details (some books have missing images, descriptions, or authors).
 No actual borrowing system (backend integration required).
 UI/UX can be improved.
 
 # Future Improvements
 
-Implement a backend to store borrowed books
-Improve book availability using a larger database
-User Authentication (Login to track borrowed books)
-Email Notifications for Borrow Requests
+Implement a backend to store borrowed books.
+Improve book availability using a larger database.
+User Authentication (Login to track borrowed books).
+Email Notifications for Borrow Requests.
 
 **Author-**
 Created as a college assignment by me-> Anjali B. Feel free to fork, modify, and improve.
