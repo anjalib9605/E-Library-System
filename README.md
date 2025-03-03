@@ -37,5 +37,5 @@ Improve book availability using a larger database.
 User Authentication (Login to track borrowed books).
 Email Notifications for Borrow Requests.
 
-**Author-**
+### Author
 Created as a college assignment by me-> Anjali B. Feel free to fork, modify, and improve.
