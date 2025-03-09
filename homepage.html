@@ -151,6 +151,7 @@
         }
 
     </style>
+    <script src="config.js"></script> 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -193,7 +194,7 @@
             const bookContainer = $("#book-container");
             bookContainer.html("<h2>Loading...</h2>");  // Loading message
 
-            const API_URL = `https://www.googleapis.com/books/v1/volumes?q=subject:${genre}&maxResults=40&key=AIzaSyCpjyjvSsnMZLbLeKHOXTM9j2sfL6YqPUc`;
+            const API_URL = `https://www.googleapis.com/books/v1/volumes?q=subject:${genre}&maxResults=40&key=${API_KEY}`;
 
             $.get(API_URL, function(data) {
                 allBooks = data.items;  // Store all the books
@@ -235,7 +236,7 @@
 
         // Show book details in a modal
         function showBookDetails(bookId) {
-            const API_URL = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=AIzaSyCpjyjvSsnMZLbLeKHOXTM9j2sfL6YqPUc`;
+            const API_URL = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${API_KEY}`;
 
             $.get(API_URL, function(data) {
                 const info = data.volumeInfo;
