@@ -151,22 +151,23 @@
         }
 
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
     <h1 id='explore'> <u>EXPLORE OUR BOOKS</u> </h1>
-    <input type="text" id="search-bar" placeholder="Search by Title or Author" onkeyup="searchBooks()">
+    <input type="text" id="search-bar" placeholder="Search by Title or Author">
 
     <div id='filter'>
         <h4>Your Favourite Genres:</h4>
-        <h5 onclick="fetchBooks('Juvenile Fiction', this)">Juvenile Fiction</h5>
-        <h5 onclick="fetchBooks('Fiction', this)">Fiction</h5>
-        <h5 onclick="fetchBooks('Adventure and adventurers', this)">Adventure and adventurers</h5>
-        <h5 onclick="fetchBooks('Young Adult Fiction', this)">Young Adult Fiction</h5>
+        <h5 class="genre" data-genre="Juvenile Fiction">Juvenile Fiction</h5>
+        <h5 class="genre" data-genre="Fiction">Fiction</h5>
+        <h5 class="genre" data-genre="Adventure and adventurers">Adventure and adventurers</h5>
+        <h5 class="genre" data-genre="Young Adult Fiction">Young Adult Fiction</h5>
     </div>
 
     <div id="book-container">
-        <!-- Books will be dynamically added here -->
+        
     </div>
 
     <!-- Modal for Book Details -->
@@ -184,35 +185,29 @@
     <script>
         let allBooks = [];  // Declare a global variable to store all the books
 
+        // Fetch books based on the selected genre
         function fetchBooks(genre, element) {
-            // Highlight the clicked genre
-            const allGenres = document.querySelectorAll('#filter h5');
-            allGenres.forEach(genreElement => {
-                genreElement.classList.remove('active'); // Remove the active class from all
-            });
+            $(".genre").removeClass("active"); // Remove the active class from all
+            $(element).addClass("active"); // Add the active class to the clicked genre
 
-            element.classList.add('active'); // Add the active class to the clicked genre
-
-            const bookContainer = document.getElementById("book-container");
-            bookContainer.innerHTML = "<h2>Loading...</h2>";  // Loading message
+            const bookContainer = $("#book-container");
+            bookContainer.html("<h2>Loading...</h2>");  // Loading message
 
             const API_URL = `https://www.googleapis.com/books/v1/volumes?q=subject:${genre}&maxResults=40&key=AIzaSyCpjyjvSsnMZLbLeKHOXTM9j2sfL6YqPUc`;
 
-            fetch(API_URL)
-                .then(response => response.json())
-                .then(data => {
-                    allBooks = data.items;  // Store all the books
-                    displayBooks(allBooks);  // Display books
-                })
-                .catch(error => {
-                    bookContainer.innerHTML = "<h2>Failed to load books</h2>";
-                    console.error("Error fetching books:", error);
-                });
+            $.get(API_URL, function(data) {
+                allBooks = data.items;  // Store all the books
+                displayBooks(allBooks);  // Display books
+            }).fail(function(error) {
+                bookContainer.html("<h2>Failed to load books</h2>");
+                console.error("Error fetching books:", error);
+            });
         }
 
+        // Display the books on the page
         function displayBooks(books) {
-            const bookContainer = document.getElementById("book-container");
-            bookContainer.innerHTML = "";  // Clear previous books
+            const bookContainer = $("#book-container");
+            bookContainer.html("");  // Clear previous books
             books.forEach(book => {
                 const info = book.volumeInfo;
 
@@ -223,58 +218,64 @@
                         <p>${info.authors ? info.authors.join(', ') : "Unknown Author"}</p>
                     </div>
                 `;
-                bookContainer.innerHTML += bookHTML;  // Append the new book to the container
+                bookContainer.append(bookHTML);  // Append the new book to the container
             });
         }
 
-        function searchBooks() {
-            const searchQuery = document.getElementById("search-bar").value.toLowerCase();
+        // Handle search input
+        $("#search-bar").on("keyup", function() {
+            const searchQuery = $(this).val().toLowerCase();
             const filteredBooks = allBooks.filter(book => {
                 const title = book.volumeInfo.title.toLowerCase();
                 const authors = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ').toLowerCase() : '';
                 return title.includes(searchQuery) || authors.includes(searchQuery);
             });
             displayBooks(filteredBooks);  // Display filtered books based on search
-        }
+        });
 
+        // Show book details in a modal
         function showBookDetails(bookId) {
             const API_URL = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=AIzaSyCpjyjvSsnMZLbLeKHOXTM9j2sfL6YqPUc`;
 
-            fetch(API_URL)
-                .then(response => response.json())
-                .then(data => {
-                    const info = data.volumeInfo;
-                    document.getElementById("bookTitle").innerText = info.title;
-                    document.getElementById("bookAuthor").innerText = `Authors: ${info.authors ? info.authors.join(', ') : "Unknown Author"}`;
-                    document.getElementById("bookDescription").innerText = info.description || "No description available";
-                    document.getElementById("bookImage").src = info.imageLinks?.thumbnail || 'https://via.placeholder.com/150';
+            $.get(API_URL, function(data) {
+                const info = data.volumeInfo;
+                $("#bookTitle").text(info.title);
+                $("#bookAuthor").text(`Authors: ${info.authors ? info.authors.join(', ') : "Unknown Author"}`);
+                $("#bookDescription").text(info.description || "No description available");
+                $("#bookImage").attr("src", info.imageLinks?.thumbnail || 'https://via.placeholder.com/150');
 
-                    document.getElementById("bookModal").style.display = "block";
-                })
-                .catch(error => {
-                    console.error("Error fetching book details:", error);
-                });
+                $("#bookModal").show();
+            }).fail(function(error) {
+                console.error("Error fetching book details:", error);
+            });
         }
 
-        // Close the modal when the user clicks the "x"
-        document.querySelector(".close").onclick = function() {
-            document.getElementById("bookModal").style.display = "none";
-        }
+        // Close the modal
+        $(".close").click(function() {
+            $("#bookModal").hide();
+        });
 
-        // Close the modal if the user clicks outside of the modal content
-        window.onclick = function(event) {
-            if (event.target === document.getElementById("bookModal")) {
-                document.getElementById("bookModal").style.display = "none";
+        // Close modal when clicking outside
+        $(window).click(function(event) {
+            if ($(event.target).is("#bookModal")) {
+                $("#bookModal").hide();
             }
-        }
+        });
 
-        // Function to go to the borrow page with title and author passed as query parameters
+        // Function to go to the borrow page
         function goToBorrowPage() {
-            const title = encodeURIComponent(document.getElementById("bookTitle").innerText);
-            const authorText = document.getElementById("bookAuthor").innerText;
+            const title = encodeURIComponent($("#bookTitle").text());
+            const authorText = $("#bookAuthor").text();
             const author = encodeURIComponent(authorText.replace("Authors: ", ""));
             window.location.href = `borrow.html?title=${title}&author=${author}`;
         }
+
+        // Attach click event to genres
+        $(".genre").click(function() {
+            const genre = $(this).data("genre");
+            fetchBooks(genre, this);
+        });
+
     </script>
 
 </body>
