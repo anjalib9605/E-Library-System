@@ -12,7 +12,9 @@
 ## Technologies Used  
 
 - **HTML, CSS, JavaScript**  
-- **Google Books API** for fetching book data. 
+- **Google Books API** for fetching book data.
+- **jQuery** (in homepage.html for dynamic content)
+- **AngularJS** (in borrow.html for enhanced interactivity)
 
 ## How to Use  
 
@@ -38,4 +40,4 @@ User Authentication (Login to track borrowed books).
 Email Notifications for Borrow Requests.
 
 ### Author
-Created as a college assignment by me-> Anjali B. Feel free to fork, modify, and improve.
+Created as a college assignment by Anjali B. Feel free to fork, modify, and improve.
